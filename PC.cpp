@@ -10,8 +10,10 @@ using namespace std;
 queue<char> buffer;
 const char letras[26]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 mutex flag;
-
+int limBuffer = 100;
 int cont = 0;
+int desperdicio = 0;
+
 class Monitor {
 	public:
 	void producir(int productor){
@@ -19,8 +21,14 @@ class Monitor {
 		int aleatorio;
 		aleatorio = rand() % 26;
 		char producido=letras[aleatorio];
-		buffer.push(producido);
-		cout<<"El productor "<<productor<<" Está produciendo: "<<producido<<endl;
+		if(buffer.size() < limBuffer){
+			desperdicio++;
+			cout<<"Se esta dejando desperdicio"<<endl;
+			cout<<"Desperdicio actual: "<< desperdicio <<endl;
+		}else{
+			buffer.push(producido);
+			cout<<"El productor "<<productor<<" Está produciendo: "<<producido<<endl;
+		}
 		flag.unlock();		
 	}
 
@@ -30,8 +38,13 @@ class Monitor {
     int aleatorio;
 		aleatorio = rand() % 26;
 		char consumido=letras[aleatorio];
-		buffer.pop();
-		cout<<"El consumidor "<<consumidor<<"Está consumiendo: "<<consumido<<endl;
+		if(!buffer.empty()){
+			buffer.pop();
+			cout<<"El consumidor "<<consumidor<<"Está consumiendo: "<<consumido<<endl;
+		}else{
+			cout<<"El buffer está vació"<<endl;
+
+		}
 		flag.unlock();		
 	}
 };
