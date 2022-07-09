@@ -95,8 +95,8 @@ int main() {
 	}
 	
 	for(int i=0; i<NUM_HILOS; i++) {
-		productor[i]->join_thread();	//	START
-	    consumidor[i]->join_thread();	//	START
+		productor[i]->join_thread();	
+	    consumidor[i]->join_thread();	
 	}
 
 	return 0;
