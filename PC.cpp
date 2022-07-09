@@ -5,11 +5,9 @@
 
 using namespace std;
 
-// g++ monitor04.cpp -lpthread
-
 #define NUM_HILOS 10
 
-queue<char> colaElementos;
+queue<char> cola;
 const char letras[26]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 int cont=0;
 mutex flag;
@@ -21,7 +19,7 @@ class Monitor {
 		int aleatorio;
 		aleatorio = rand() % 26;
 		char producido=letras[aleatorio];
-		colaElementos.push(producido);
+		cola.push(producido);
 		cout<<"El productor "<<productor<<" Está produciendo: "<<producido<<endl;
 		flag.unlock();	// UNLOCK		
 	}
@@ -32,7 +30,7 @@ class Monitor {
 		int aleatorio;
 		aleatorio = rand() % 26;
 		char consumido=letras[aleatorio];
-		colaElementos.pop();
+		cola.pop();
 		cout<<"El consumidor "<<consumidor<<"Está consumiendo:"<<consumido<<endl;
 		flag.unlock();	// UNLOCK		
 	}
