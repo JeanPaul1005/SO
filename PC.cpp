@@ -22,17 +22,18 @@ class Monitor {
 		aleatorio = rand() % 26;
 		char producido=letras[aleatorio];
 		colaElementos.push(producido);
-		cout<<"Productor ->"<<productor<<"<- produció: "<<producido<<endl;
+		cout<<"El productor "<<productor<<" Está produciendo: "<<producido<<endl;
 		flag.unlock();	// UNLOCK		
 	}
-	
+
+			
 	void consumir(int consumidor){
 	    flag.lock();	// LOCK
 		int aleatorio;
 		aleatorio = rand() % 26;
 		char consumido=letras[aleatorio];
 		colaElementos.pop();
-		cout<<"Consumidor ->"<<consumidor<<"<- consumió: "<<consumido<<endl;
+		cout<<"El consumidor "<<consumidor<<"Está consumiendo:"<<consumido<<endl;
 		flag.unlock();	// UNLOCK		
 	}
 };
@@ -82,24 +83,3 @@ class Consumidor {
 		}
 		
 };
-
-
-int main() {
-
-	Productor* productor[NUM_HILOS];
-	Consumidor* consumidor[NUM_HILOS];
-	Monitor* mo;
-	
-	int i;
-	for(i=0; i<NUM_HILOS; i++) {
-		productor[i] = new Productor(mo, i);
-		consumidor[i] = new Consumidor(mo, i);
-	}
-	
-	for(i=0; i<NUM_HILOS; i++) {
-		productor[i]->join_thread();	//	START
-	    consumidor[i]->join_thread();	//	START
-	}
-
-	return 0;
-}
